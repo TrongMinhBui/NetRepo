@@ -18,6 +18,8 @@ public class Player : NetworkBehaviour
     private NetworkVariable<Vector2> _moveInput = new NetworkVariable<Vector2>(readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
 
     [SerializeField] private Transform firePoint;
+
+    private float bulletSpeed = 10f;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,10 +51,12 @@ public class Player : NetworkBehaviour
     private void SpawnRPC()
     {
         Debug.Log(OwnerClientId + " Hej");
-        NetworkObject ob = Instantiate(objectToSpawn, firePoint.position, firePoint.rotation).GetComponent<NetworkObject>();
-        Rigidbody2D projectile = ob.GetComponent<Rigidbody2D>();
-        projectile.AddForce(firePoint.up * 10f, ForceMode2D.Impulse);
-        ob.Spawn();
+        //NetworkObject ob = Instantiate(objectToSpawn, firePoint.position, firePoint.rotation).GetComponent<NetworkObject>();
+        GameObject gb = Instantiate(objectToSpawn, firePoint.position, firePoint.rotation);
+        
+        //ob.Spawn();
+        Rigidbody2D projectile = gb.GetComponent<Rigidbody2D>();
+        projectile.AddForce(firePoint.up * bulletSpeed, ForceMode2D.Impulse);
         
     }
 
