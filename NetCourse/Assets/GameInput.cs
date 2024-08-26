@@ -53,6 +53,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Emote"",
+                    ""type"": ""Button"",
+                    ""id"": ""ae2ff05b-ee53-42f7-88aa-6de638a4551f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +141,17 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""action"": ""Mouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""38c72aaf-1209-4b70-bdc8-0da8c84ce419"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Emote"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,6 +163,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
         m_Gameplay_Shoot = m_Gameplay.FindAction("Shoot", throwIfNotFound: true);
         m_Gameplay_Mouse = m_Gameplay.FindAction("Mouse", throwIfNotFound: true);
+        m_Gameplay_Emote = m_Gameplay.FindAction("Emote", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -207,6 +228,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Move;
     private readonly InputAction m_Gameplay_Shoot;
     private readonly InputAction m_Gameplay_Mouse;
+    private readonly InputAction m_Gameplay_Emote;
     public struct GameplayActions
     {
         private @GameInput m_Wrapper;
@@ -214,6 +236,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Gameplay_Move;
         public InputAction @Shoot => m_Wrapper.m_Gameplay_Shoot;
         public InputAction @Mouse => m_Wrapper.m_Gameplay_Mouse;
+        public InputAction @Emote => m_Wrapper.m_Gameplay_Emote;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -232,6 +255,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Mouse.started += instance.OnMouse;
             @Mouse.performed += instance.OnMouse;
             @Mouse.canceled += instance.OnMouse;
+            @Emote.started += instance.OnEmote;
+            @Emote.performed += instance.OnEmote;
+            @Emote.canceled += instance.OnEmote;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -245,6 +271,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Mouse.started -= instance.OnMouse;
             @Mouse.performed -= instance.OnMouse;
             @Mouse.canceled -= instance.OnMouse;
+            @Emote.started -= instance.OnEmote;
+            @Emote.performed -= instance.OnEmote;
+            @Emote.canceled -= instance.OnEmote;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -267,5 +296,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
         void OnMouse(InputAction.CallbackContext context);
+        void OnEmote(InputAction.CallbackContext context);
     }
 }
