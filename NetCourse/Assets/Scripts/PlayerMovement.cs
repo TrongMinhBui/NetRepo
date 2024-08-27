@@ -63,7 +63,7 @@ public class Player : NetworkBehaviour
         _moveInput.Value = data;
     }
 
-    [Rpc(SendTo.ClientsAndHost)]
+    [Rpc(SendTo.Server)]
     private void MousePointRPC(Vector2 value)
     {
         mousePos = _camera.ScreenToWorldPoint(value);
